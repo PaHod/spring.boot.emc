@@ -6,8 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class EmcApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(EmcApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(EmcApplication.class, args);
+    }
 }

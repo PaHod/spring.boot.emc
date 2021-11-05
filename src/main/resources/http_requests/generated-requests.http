@@ -149,30 +149,7 @@ Content-Type: application/json
 
 
 ###
-POST http://localhost:8081/emc/patients_doctors/addAllMedicalToolToDoctor/3
-Content-Type: application/json
-
-[
-  {
-    "name": "knife",
-    "size": "S",
-    "serialNumber": "s/n:123"
-  },
-  {
-    "name": "scalpel",
-    "size": "M",
-    "serialNumber": "s/n:552"
-  },
-  {
-    "name": "head light",
-    "size": "XL",
-    "serialNumber": "s/n:1456"
-  }
-]
-
-
-###
-POST http://localhost:8081/emc/patients_doctors/addMedicalDocumentToDoctor/5
+POST http://localhost:8081/emc/doctors/addMedicalDocumentsToDoctor/5
 Content-Type: application/json
 
 [
@@ -189,6 +166,19 @@ Content-Type: application/json
     "secretLevel": "internal"
   }
 ]
+
+###
+POST http://localhost:8081/emc/doctors/addAllMedicalToolsToDoctor/3
+Content-Type: application/json
+
+{
+  "firstName": "Mihail",
+  "lastName": "Prokopov",
+  "sex": "m",
+  "address": "Kharkiv",
+  "phoneNumber": "8-321"
+}
+
 
 ###
 POST http://localhost:8081/emc/patients_doctors/addPatientToDoctor/3

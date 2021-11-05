@@ -104,7 +104,14 @@ public class EmcRestController {
         doctorService.remove(doctor);
     }
 
-    @PostMapping("/patients_doctors/addAllMedicalToolsToDoctor/{doctorId}")
+    @PostMapping("/doctors/addPatientToDoctor/{doctorId}")
+    public void addPatientToDoctor(@PathVariable Integer doctorId, @RequestBody Patient patient) {
+        Doctor doctor = doctorService.findById(doctorId);
+        doctor.addPatientToDoctor(patient);
+        doctorService.update(doctor);
+    }
+
+    @PostMapping("/doctors/addAllMedicalToolsToDoctor/{doctorId}")
     public void addAllMedicalToolsToDoctor(@PathVariable Integer doctorId, @RequestBody List<MedicalTool> medicalTools) {
         Doctor doctor = doctorService.findById(doctorId);
         for (MedicalTool medicalTool : medicalTools) {
@@ -113,8 +120,7 @@ public class EmcRestController {
         doctorService.update(doctor);
     }
 
-
-    @PostMapping("/patients_doctors/addMedicalDocumentsToDoctor/{doctorId}")
+    @PostMapping("/doctors/addMedicalDocumentsToDoctor/{doctorId}")
     public void addMedicalDocumentsToDoctor(@PathVariable Integer doctorId, @RequestBody List<MedicalDocument> medicalDocuments) {
         Doctor doctor = doctorService.findById(doctorId);
         for (MedicalDocument medicalDocument : medicalDocuments) {

@@ -1,5 +1,6 @@
 package com.spring.boot.emc.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -42,7 +43,10 @@ public class Doctor {
     @JoinColumn(name = "doctor_id")
     private List<MedicalTool> medicalTools;
 
-
+    // TODO: find out the solution
+    //  without JsonBackReference cannot read(Could not write JSON: Infinite recursion)
+    //  BUT with JsonBackReference cannot add
+    @JsonBackReference
     @ManyToMany(mappedBy = "doctors", cascade = CascadeType.ALL)
     private List<Patient> patients;
 

@@ -2,17 +2,47 @@
 POST http://localhost:8081/emc/patients/add
 Content-Type: application/json
 
-{"firstName": "Added By", "lastName": "HTTP POST", "sex": "f", "address": "www.google.com", "phoneNumber": "02-03-04"}
+{
+  "firstName": "Added By",
+  "lastName": "HTTP POST",
+  "sex": "f",
+  "address": "www.google.com",
+  "phoneNumber": "02-03-04"
+}
 
 ###
 POST http://localhost:8081/emc/patients/add/all
 Content-Type: application/json
 
 [
-  {"firstName": "Nikita", "lastName": "Smitt", "sex": "m", "address": "Zmerenka", "phoneNumber": "321-456"},
-  {"firstName": "Yura", "lastName": "Gorban", "sex": "m", "address": "Lutizhz", "phoneNumber": "045-321"},
-  {"firstName": "John", "lastName": "Vakula", "sex": "m", "address": "Irpen", "phoneNumber": "085-222"},
-  {"firstName": "Serena", "lastName": "Leonidova", "sex": "f", "address": "Irpen", "phoneNumber": "085-333"}
+  {
+    "firstName": "Nikita",
+    "lastName": "Smitt",
+    "sex": "m",
+    "address": "Zmerenka",
+    "phoneNumber": "321-456"
+  },
+  {
+    "firstName": "Yura",
+    "lastName": "Gorban",
+    "sex": "m",
+    "address": "Lutizhz",
+    "phoneNumber": "045-321"
+  },
+  {
+    "firstName": "John",
+    "lastName": "Vakula",
+    "sex": "m",
+    "address": "Irpen",
+    "phoneNumber": "085-222"
+  },
+  {
+    "firstName": "Serena",
+    "lastName": "Leonidova",
+    "sex": "f",
+    "address": "Irpen",
+    "phoneNumber": "085-333"
+  }
 ]
 
 ###
@@ -49,9 +79,7 @@ Content-Type: application/json
 
 {
   "id": 8
-
 }
-
 
 ###
 POST http://localhost:8081/emc/doctors/add
@@ -77,6 +105,9 @@ GET http://localhost:8081/emc/doctors/show/3
 
 <> 2021-11-04T232946.200.json
 <> 2021-11-04T232625.200.json
+
+###
+GET http://localhost:8081/emc/doctors/show/PatientsByDoctorId/5
 
 ###
 GET http://localhost:8081/emc/doctors/show/ByFullName
@@ -117,3 +148,73 @@ Content-Type: application/json
 }
 
 
+###
+POST http://localhost:8081/emc/patients_doctors/addAllMedicalToolToDoctor/3
+Content-Type: application/json
+
+[
+  {
+    "name": "knife",
+    "size": "S",
+    "serialNumber": "s/n:123"
+  },
+  {
+    "name": "scalpel",
+    "size": "M",
+    "serialNumber": "s/n:552"
+  },
+  {
+    "name": "head light",
+    "size": "XL",
+    "serialNumber": "s/n:1456"
+  }
+]
+
+
+###
+POST http://localhost:8081/emc/patients_doctors/addMedicalDocumentToDoctor/5
+Content-Type: application/json
+
+[
+  {
+    "name": "sick history",
+    "secretLevel": "private"
+  },
+  {
+    "name": "working hours",
+    "secretLevel": "public"
+  },
+  {
+    "name": "visits schedule",
+    "secretLevel": "internal"
+  }
+]
+
+###
+POST http://localhost:8081/emc/patients_doctors/addPatientToDoctor/3
+Content-Type: application/json
+
+{
+  "firstName": "Mihail",
+  "lastName": "Prokopov",
+  "sex": "m",
+  "address": "Kharkiv",
+  "phoneNumber": "8-321"
+}
+
+
+###
+POST http://localhost:8081/emc/patients/addPatientEntityManager
+Content-Type: application/json
+
+{
+  "firstName": "Added with",
+  "lastName": "EntityManage",
+  "sex": "f",
+  "address": "www.google.com",
+  "phoneNumber": "02-03-04"
+}
+
+
+###
+GET http://localhost:8081/emc/doctors/showPatientsByDoctorId/2

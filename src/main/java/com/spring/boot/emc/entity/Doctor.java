@@ -1,5 +1,7 @@
 package com.spring.boot.emc.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +33,18 @@ public class Doctor {
     @Column(name = "speciality")
     private String speciality;
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
+    private List<MedicalDocument> medicalDocuments;
 
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(
-//            name = "patients_doctors",
-//            joinColumns = @JoinColumn(name = "doctor_id"),
-//            inverseJoinColumns = @JoinColumn(name = "patient_id")
-//    )
-//    private List<Patient> patients;
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "doctor_id")
+    private List<MedicalTool> medicalTools;
+
+
+    @ManyToMany(mappedBy = "doctors", cascade = CascadeType.ALL)
+    private List<Patient> patients;
 
     public Doctor() {
     }
@@ -52,12 +58,27 @@ public class Doctor {
         this.speciality = speciality;
     }
 
-//    public void addPatientToDoctor(Patient newPatient) {
-//        if (patients == null) {
-//            patients = new ArrayList<>();
-//        }
-//        patients.add(newPatient);
-//    }
+    public void addMedicalDocumentToDoctor(MedicalDocument newMedicalDocument) {
+        if (medicalDocuments == null) {
+            medicalDocuments = new ArrayList<>();
+        }
+        medicalDocuments.add(newMedicalDocument);
+        newMedicalDocument.setDoctor(this);
+    }
+
+    public void addMedicalToolToDoctor(MedicalTool newMedicalTool) {
+        if (medicalTools == null) {
+            medicalTools = new ArrayList<>();
+        }
+        medicalTools.add(newMedicalTool);
+    }
+
+    public void addPatientToDoctor(Patient newPatient) {
+        if (patients == null) {
+            patients = new ArrayList<>();
+        }
+        patients.add(newPatient);
+    }
 
     public int getId() {
         return id;
@@ -115,13 +136,29 @@ public class Doctor {
         this.speciality = speciality;
     }
 
-//    public List<Patient> getPatients() {
-//        return patients;
-//    }
-//
-//    public void setPatients(List<Patient> patients) {
-//        this.patients = patients;
-//    }
+    public List<MedicalDocument> getMedicalDocuments() {
+        return medicalDocuments;
+    }
+
+    public void setMedicalDocuments(List<MedicalDocument> medicalDocuments) {
+        this.medicalDocuments = medicalDocuments;
+    }
+
+    public List<MedicalTool> getMedicalTools() {
+        return medicalTools;
+    }
+
+    public void setMedicalTools(List<MedicalTool> medicalTools) {
+        this.medicalTools = medicalTools;
+    }
+
+    public List<Patient> getPatients() {
+        return patients;
+    }
+
+    public void setPatients(List<Patient> patients) {
+        this.patients = patients;
+    }
 
     @Override
     public String toString() {

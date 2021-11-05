@@ -5,7 +5,6 @@ import com.spring.boot.emc.repository.IDoctorRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DoctorServiceImpl implements DoctorService {
@@ -17,7 +16,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public void saveDoctor(Doctor doctor) {
+    public void save(Doctor doctor) {
         doctorRepository.save(doctor);
     }
 
@@ -32,23 +31,23 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public Doctor findDoctorByFirstAndLastNames(Doctor doctor) {
+    public Doctor findByFirstAndLastNames(Doctor doctor) {
         return doctorRepository.findByFirstNameAndLastName(doctor.getFirstName(), doctor.getLastName());
     }
 
     @Override
-    public Doctor updateDoctor(Doctor doctor) {
+    public Doctor update(Doctor doctor) {
         doctorRepository.save(doctor);
         return doctor;
     }
 
     @Override
-    public void removeDoctorById(Integer id) {
+    public void removeById(Integer id) {
         doctorRepository.deleteById(id);
     }
 
     @Override
-    public void removeDoctor(Doctor doctor) {
+    public void remove(Doctor doctor) {
         doctorRepository.delete(doctor);
     }
 }

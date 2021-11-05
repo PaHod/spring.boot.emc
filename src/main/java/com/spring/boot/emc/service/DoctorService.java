@@ -6,17 +6,17 @@ import java.util.List;
 
 public interface DoctorService {
 
-    void saveDoctor(Doctor doctor);
+    void save(Doctor doctor);
 
     Doctor findById(Integer id);
 
     List<Doctor> findAll();
 
-    Doctor findDoctorByFirstAndLastNames(Doctor doctor);
+    Doctor findByFirstAndLastNames(Doctor doctor);
 
-    Doctor updateDoctor(Doctor doctor);
+    Doctor update(Doctor doctor);
 
-    void removeDoctorById(Integer id);
+    void removeById(Integer id);
 
-    void removeDoctor(Doctor doctor);
+    void remove(Doctor doctor);
 }

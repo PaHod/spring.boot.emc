@@ -1,11 +1,3 @@
-# CREATE DATABASE  emcdb;
-# USE emcdb;
-#
-# drop table if exists patients;
-# drop table if exists doctors;
-# drop table if exists doctor_patient;
-
-
 -- fill tables with demo data
 insert into patients(first_name, last_name, sex, address, phone_number)
 values ('Dmitriy', 'Ivanov', 'm', 'Kyiv', '044-123'),

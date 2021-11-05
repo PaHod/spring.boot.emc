@@ -1,5 +1,7 @@
 package com.spring.boot.emc.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +30,14 @@ public class Patient {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(
-//            name = "patients_doctors",
-//            joinColumns = @JoinColumn(name = "patient_id"),
-//            inverseJoinColumns = @JoinColumn(name = "doctor_id")
-//    )
-//    private List<Doctor> doctors;
+    @JsonBackReference
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "patients_doctors",
+            joinColumns = @JoinColumn(name = "patient_id"),
+            inverseJoinColumns = @JoinColumn(name = "doctor_id")
+    )
+    private List<Doctor> doctors;
 
     public Patient() {
     }
@@ -48,12 +50,12 @@ public class Patient {
         this.phoneNumber = phoneNumber;
     }
 
-//    public void addDoctor(Doctor doctor) {
-//        if (doctors == null) {
-//            doctors = new ArrayList<>();
-//        }
-//        doctors.add(doctor);
-//    }
+    public void addDoctor(Doctor doctor) {
+        if (doctors == null) {
+            doctors = new ArrayList<>();
+        }
+        doctors.add(doctor);
+    }
 
     public int getId() {
         return id;
@@ -103,13 +105,13 @@ public class Patient {
         this.phoneNumber = phoneNumber;
     }
 
-//    public List<Doctor> getDoctors() {
-//        return doctors;
-//    }
-//
-//    public void setDoctors(List<Doctor> doctors) {
-//        this.doctors = doctors;
-//    }
+    public List<Doctor> getDoctors() {
+        return doctors;
+    }
+
+    public void setDoctors(List<Doctor> doctors) {
+        this.doctors = doctors;
+    }
 
     @Override
     public String toString() {

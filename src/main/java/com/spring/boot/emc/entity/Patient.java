@@ -1,7 +1,5 @@
 package com.spring.boot.emc.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +28,6 @@ public class Patient {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @JsonBackReference
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "patients_doctors",

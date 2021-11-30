@@ -1,8 +1,7 @@
-package com.spring.boot.emc.mapper;
+package com.spring.boot.emc.dto.mapper;
 
 import com.spring.boot.emc.dto.DoctorDTO;
-import com.spring.boot.emc.dto.DoctorSimpleDTO;
-import com.spring.boot.emc.entity.Doctor;
+import com.spring.boot.emc.model.Doctor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +14,7 @@ import static java.util.stream.Collectors.toList;
 
 /**
  * can be simplified by using mapper framework such as:
+ * modelmapper,
  * mapstruct,
  * orika-mapper
  */
@@ -23,30 +23,13 @@ import static java.util.stream.Collectors.toList;
 public class DoctorMapper {
 
     private PatientMapper patientMapper;
-    private MedicalDocumentMapper documentMapper;
-    private MedicalToolMapper toolMapper;
 
     @Autowired
     public void setPatientMapper(PatientMapper patientMapper) {
         this.patientMapper = patientMapper;
     }
 
-    @Autowired
-    public void setDocumentMapper(MedicalDocumentMapper documentMapper) {
-        this.documentMapper = documentMapper;
-    }
-
-    @Autowired
-    public void setToolMapper(MedicalToolMapper toolMapper) {
-        this.toolMapper = toolMapper;
-    }
-
-    /**
-     * skip id and complex field like: patients, documents etc.
-     *
-     * @return new Doctor Entity
-     */
-    public Doctor doctorToNewEntity(DoctorDTO doctorDTO) {
+    public Doctor toNewEntity(DoctorDTO doctorDTO) {
         return updateEntityFromDTO(new Doctor(), doctorDTO);
     }
 
@@ -70,35 +53,27 @@ public class DoctorMapper {
         doctorDTO.setPhoneNumber(doctor.getPhoneNumber());
         doctorDTO.setSpeciality(doctor.getSpeciality());
 
-        doctorDTO.setMedicalDocumentsDTOS(streamOfNullable(doctor.getMedicalDocuments())
-                .map(documentMapper::toSimpleDTO)
-                .collect(toList()));
-
-        doctorDTO.setMedicalToolsDTOS(streamOfNullable(doctor.getMedicalTools())
-                .map(toolMapper::toSimpleDTO)
-                .collect(toList()));
-
         doctorDTO.setPatientsDTOS(streamOfNullable(doctor.getPatients())
-                .map(patientMapper::toSimpleDTO)
+                .map(patientMapper::toDtoMainFields)
                 .collect(toList()));
 
         return doctorDTO;
     }
 
 
+    public DoctorDTO toDtoMainFields(Doctor doctor) {
+        DoctorDTO doctorDTO = new DoctorDTO();
+        doctorDTO.setId(doctor.getId());
+        doctorDTO.setFirstName(doctor.getFirstName());
+        doctorDTO.setLastName(doctor.getLastName());
+        doctorDTO.setSpeciality(doctor.getSpeciality());
+        return doctorDTO;
+    }
+
     private <P> Stream<P> streamOfNullable(List<P> list) {
         return ofNullable(list)
                 .orElse(Collections.emptyList())
                 .stream();
-    }
-
-    public DoctorSimpleDTO toSimpleDTO(Doctor doctor) {
-        DoctorSimpleDTO doctorSimpleDTO = new DoctorSimpleDTO();
-        doctorSimpleDTO.setId(doctor.getId());
-        doctorSimpleDTO.setFirstName(doctor.getFirstName());
-        doctorSimpleDTO.setLastName(doctor.getLastName());
-        doctorSimpleDTO.setSpeciality(doctor.getSpeciality());
-        return doctorSimpleDTO;
     }
 
 }

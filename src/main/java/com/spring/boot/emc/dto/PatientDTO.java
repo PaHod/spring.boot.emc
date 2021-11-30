@@ -1,7 +1,13 @@
 package com.spring.boot.emc.dto;
 
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.List;
+import java.util.Objects;
+
+@Getter
+@Setter
 public class PatientDTO {
 
     private int id;
@@ -10,62 +16,24 @@ public class PatientDTO {
     private String sex;
     private String address;
     private String phoneNumber;
-    private List<DoctorSimpleDTO> doctors;
+    private List<DoctorDTO> doctors;
 
-
-    public int getId() {
-        return id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PatientDTO)) return false;
+        PatientDTO that = (PatientDTO) o;
+        return id == that.id
+                && Objects.equals(firstName, that.firstName)
+                && Objects.equals(lastName, that.lastName)
+                && Objects.equals(sex, that.sex)
+                && Objects.equals(address, that.address)
+                && Objects.equals(phoneNumber, that.phoneNumber)
+                && Objects.equals(doctors, that.doctors);
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public List<DoctorSimpleDTO> getDoctors() {
-        return doctors;
-    }
-
-    public void setDoctors(List<DoctorSimpleDTO> doctors) {
-        this.doctors = doctors;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, sex, address, phoneNumber, doctors);
     }
 }

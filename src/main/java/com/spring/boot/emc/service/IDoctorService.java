@@ -1,15 +1,13 @@
 package com.spring.boot.emc.service;
 
-import com.spring.boot.emc.entity.Doctor;
+import com.spring.boot.emc.dto.DoctorDTO;
+import com.spring.boot.emc.model.Doctor;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface IDoctorService {
 
     Doctor save(Doctor doctor);
-
-    Optional<Doctor> findById(int id);
 
     Doctor findByIdOrThrow(int doctorId);
 

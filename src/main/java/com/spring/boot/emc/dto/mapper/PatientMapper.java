@@ -1,9 +1,9 @@
-package com.spring.boot.emc.mapper;
+package com.spring.boot.emc.dto.mapper;
 
 import com.spring.boot.emc.dto.PatientDTO;
-import com.spring.boot.emc.dto.PatientSimpleDTO;
-import com.spring.boot.emc.entity.Doctor;
-import com.spring.boot.emc.entity.Patient;
+import com.spring.boot.emc.model.Doctor;
+import com.spring.boot.emc.model.Patient;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +15,6 @@ import static java.util.stream.Collectors.toList;
 
 @Component
 public class PatientMapper {
-
     private DoctorMapper doctorMapper;
 
     @Autowired
@@ -23,11 +22,7 @@ public class PatientMapper {
         this.doctorMapper = doctorMapper;
     }
 
-    /**
-     * skip id and doctors fields
-     *
-     * @return new Patient entity
-     */
+
     public Patient toNewEntity(PatientDTO patientDTO) {
         return updateEntityFromDTO(new Patient(), patientDTO);
     }
@@ -51,17 +46,17 @@ public class PatientMapper {
         patientDTO.setPhoneNumber(patient.getPhoneNumber());
 
         List<Doctor> doctors = ofNullable(patient.getDoctors()).orElse(Collections.emptyList());
+
         patientDTO.setDoctors(doctors.stream()
-                .map(doctorMapper::toSimpleDTO)
+                .map(doctorMapper::toDtoMainFields)
                 .collect(toList()));
         return patientDTO;
     }
 
-    public PatientSimpleDTO toSimpleDTO(Patient patient) {
-        PatientSimpleDTO patientSimpleDTO = new PatientSimpleDTO();
-        patientSimpleDTO.setId(patient.getId());
-        patientSimpleDTO.setFirstName(patient.getFirstName());
-        patientSimpleDTO.setLastName(patient.getLastName());
-        return patientSimpleDTO;
+    public PatientDTO toDtoMainFields(Patient patient) {
+        PatientDTO patientDTO = new PatientDTO();
+        String[] propsToIgnore = {"sex", "address", "phoneNumber", "doctors"};
+        BeanUtils.copyProperties(patient, patientDTO, propsToIgnore);
+        return patientDTO;
     }
 }

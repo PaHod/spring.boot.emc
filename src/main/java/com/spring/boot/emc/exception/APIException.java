@@ -3,7 +3,7 @@ package com.spring.boot.emc.exception;
 public class APIException extends RuntimeException {
     private final int internalCode;
 
-    APIException(int internalCode, String message) {
+    public APIException(int internalCode, String message) {
         super(message);
         this.internalCode = internalCode;
     }

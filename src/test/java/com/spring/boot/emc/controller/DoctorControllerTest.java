@@ -4,12 +4,16 @@ import com.spring.boot.emc.dto.DoctorDTO;
 import com.spring.boot.emc.dto.mapper.DoctorMapper;
 import com.spring.boot.emc.dto.mapper.PatientMapper;
 import com.spring.boot.emc.model.Doctor;
-import com.spring.boot.emc.service.IDoctorService;
-import com.spring.boot.emc.service.IPatientService;
-import org.junit.jupiter.api.BeforeAll;
+import com.spring.boot.emc.service.DoctorService;
+import com.spring.boot.emc.service.PatientService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.stream.IntStream;
@@ -19,13 +23,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class DoctorControllerTest {
 
     @Mock
-    IPatientService patientService;
+    PatientService patientService;
 
     @Mock
-    IDoctorService doctorService;
+    DoctorService doctorService;
 
     @Spy
     DoctorMapper doctorMapper;
@@ -38,7 +43,6 @@ class DoctorControllerTest {
 
     @BeforeEach
     void reset() {
-        MockitoAnnotations.openMocks(this);
         patientMapper.setDoctorMapper(doctorMapper);
         doctorMapper.setPatientMapper(patientMapper);
         Mockito.reset(patientService);
@@ -53,6 +57,7 @@ class DoctorControllerTest {
         DoctorDTO doctorDTO1 = buildDoctorDTO(1);
         Doctor doctor1 = buildDoctor(1);
 
+        // TODO: 30.11.2021 ArgumentCaptor better than thenAnswer
         when(doctorService.save(any())).thenAnswer((invocation) -> {
             Doctor d = invocation.getArgument(0);
             assertThat(d.getFirstName()).isEqualTo(doctor1.getFirstName());

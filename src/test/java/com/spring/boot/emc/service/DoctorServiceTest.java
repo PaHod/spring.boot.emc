@@ -8,10 +8,12 @@ import com.spring.boot.emc.welcome.WelcomeService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +23,7 @@ import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class DoctorServiceTest {
 
     @Mock
@@ -30,11 +33,10 @@ class DoctorServiceTest {
     WelcomeService welcomeService;
 
     @InjectMocks
-    DoctorService doctorService;
+    DoctorService toTest;
 
     @BeforeEach
     void reset() {
-        MockitoAnnotations.openMocks(this);
         Mockito.reset(doctorRepository);
         Mockito.reset(welcomeService);
     }
@@ -42,13 +44,13 @@ class DoctorServiceTest {
     @Test
     void save_repositoryCall() {
         //given
-        Doctor doctorInput = buildDoctor(1);
+        Doctor doctorInput = buildDoctor(1); // TODO: 30.11.2021 empty doctor
 
         //when
-        doctorService.save(doctorInput);
+        toTest.save(doctorInput);
 
         //then
-        verify(doctorRepository, times(1)).save(doctorInput);
+        verify(doctorRepository).save(doctorInput);
     }
 
     @Test
@@ -57,17 +59,13 @@ class DoctorServiceTest {
         Doctor doctorInput = buildDoctor(1);
         int generatedId = 55;
 
-        when(doctorRepository.save(doctorInput)).thenAnswer(invocation -> {
-            Doctor doc = invocation.getArgument(0);
-            doc.setId(generatedId);
-            return doc;
-        });
+        when(doctorRepository.save(any())).thenReturn(doctorInput);
 
         //when
-        doctorService.save(doctorInput);
+        toTest.save(doctorInput);
 
         //then
-        verify(welcomeService, times(1)).sendGreetingsToNewDoctor(doctorInput);
+        verify(welcomeService).sendGreetingsToNewDoctor(doctorInput);
     }
 
     @Test
@@ -79,14 +77,14 @@ class DoctorServiceTest {
         Doctor doctorExpected = buildDoctor(1);
         doctorExpected.setId(generatedId);
 
-        when(doctorRepository.save(doctorInput)).thenAnswer(invocation -> {
+        when(doctorRepository.save(any())).thenAnswer(invocation -> {
             Doctor doc = invocation.getArgument(0);
             doc.setId(generatedId);
             return doc;
         });
 
         //when
-        Doctor savedDoctor = doctorService.save(doctorInput);
+        Doctor savedDoctor = toTest.save(doctorInput);
 
         //then
         assertThat(savedDoctor).isEqualTo(doctorExpected);
@@ -102,7 +100,7 @@ class DoctorServiceTest {
         when(doctorRepository.findById(id)).thenReturn(Optional.of(doctor));
 
         //when
-        doctorService.findByIdOrThrow(id);
+        toTest.findByIdOrThrow(id);
 
         //then
         verify(doctorRepository, times(1)).findById(id);
@@ -119,7 +117,7 @@ class DoctorServiceTest {
         when(doctorRepository.findById(id)).thenReturn(Optional.of(doctor));
 
         //when
-        Doctor byIdOrThrow = doctorService.findByIdOrThrow(id);
+        Doctor byIdOrThrow = toTest.findByIdOrThrow(id);
 
 
         //then
@@ -137,8 +135,7 @@ class DoctorServiceTest {
         when(doctorRepository.findById(id)).thenReturn(Optional.empty());
 
         //when
-        Assertions.assertThrows(DoctorNotFoundException.class,
-                () -> doctorService.findByIdOrThrow(id));
+        Assertions.assertThrows(DoctorNotFoundException.class, () -> toTest.findByIdOrThrow(id));
 
         //then
         verify(doctorRepository, times(1)).findById(id);
@@ -154,7 +151,7 @@ class DoctorServiceTest {
         when(doctorRepository.findAll()).thenReturn(iterable);
 
         //when
-        List<Doctor> doctorsList = doctorService.findAll();
+        List<Doctor> doctorsList = toTest.findAll();
 
 
         //then
@@ -173,7 +170,7 @@ class DoctorServiceTest {
         when(doctorRepository.save(doctor)).thenReturn(doctor);
 
         //when
-        Doctor updatedDoctor = doctorService.update(doctor);
+        Doctor updatedDoctor = toTest.update(doctor);
 
         //then
         verify(doctorRepository, times(1)).save(doctor);
@@ -187,7 +184,7 @@ class DoctorServiceTest {
         int idToRemove = 45;
 
         //when
-        doctorService.removeById(idToRemove);
+        toTest.removeById(idToRemove);
 
         //then
         verify(doctorRepository, times(1)).deleteById(idToRemove);

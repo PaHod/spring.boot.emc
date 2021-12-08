@@ -2,17 +2,35 @@ pipeline {
     agent any
 
     stages {
+
+        stage ('Initialize') {
+            steps {
+//                 bat echo 'PATH' = ${PATH}
+//                 bat echo 'M2_HOME' = ${M2_HOME}
+
+                bat 'JAVA -version'
+                bat '''
+                    echo "PATH = ${PATH}"
+                    echo "M2_HOME = ${M2_HOME}"
+                '''
+            }
+        }
+
+        stage('Example') {
+            steps {
+                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+            }
+        }
         stage('Checkout codebase'){
             steps{
                 echo 'Checkout codebase....'
 
-                clearWs()
                 checkout scm: [
                     $class: 'GitSCM',
-                    branches: [[name: '*/main']],
+                    branches: [[name: '*/master']],
                     userRemoteConfigs: [[
-                        credentialsId: 'github-ssh-key',
-                        url: 'git@github.com:mnorm88/junit-automation.git'
+                        credentialsId: 'pahod-ssh',
+                        url: 'git@github.com:PaHod/spring.boot.emc.git'
                     ]]
                 ]
                 echo '..... finish Checkout'
@@ -22,61 +40,25 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
+                bat ".\mvnw build"
+
+                echo '... finish Building'
             }
         }
         stage('Test') {
             steps {
                 echo 'Testing..'
+                bat ".\mvnw test"
+
+                echo '... finish Testing'
             }
         }
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
+
+                echo '... finish Deploying'
             }
         }
     }
 }
-
-// pipeline {
-//     agent any
-//
-//     stages {
-// //         stage('Checkout codebase'){
-// //             steps{
-// //                 clearWs()
-// //                 checkout scm: [
-// //                     $class: 'GitSCM',
-// //                     branches: [[name: '*/main']],
-// //                     userRemoteConfigs: [[
-// //                         credentialsId: 'github-ssh-key',
-// //                         url: 'git@github.com:mnorm88/junit-automation.git'
-// //                     ]]
-// //                 ]
-// //             }
-// //         }
-//
-//         stage('Build') {
-//             steps {
-//                 echo 'Building..'
-//             }
-//         }
-//         stage('Test') {
-//             steps {
-//                 echo 'Testing..'
-//
-// //                 bat ".\mvnw test"
-//             }
-//
-//             post {
-// //                 always {
-// // //                     junit ''
-// //                 }
-//             }
-//         }
-//         stage('Deploy') {
-//             steps {
-//                 echo 'Deploying....'
-//             }
-//         }
-//     }
-// }

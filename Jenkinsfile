@@ -8,8 +8,8 @@ pipeline {
 //                 bat echo 'PATH' = ${PATH}
 //                 bat echo 'M2_HOME' = ${M2_HOME}
 
-                bat 'JAVA -version'
-                bat '''
+                // sh 'JAVA -version'
+                sh '''
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
                 '''
@@ -29,7 +29,7 @@ pipeline {
                     $class: 'GitSCM',
                     branches: [[name: '*/master']],
                     userRemoteConfigs: [[
-                        credentialsId: 'pahod-ssh',
+                        credentialsId: 'PaHod_GitHub',
                         url: 'git@github.com:PaHod/spring.boot.emc.git'
                     ]]
                 ]
@@ -40,7 +40,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-                bat ".\mvnw build"
+//                 sh ".\mvnw build"
 
                 echo '... finish Building'
             }
@@ -48,7 +48,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
-                bat ".\mvnw test"
+//                 sh.\mvnw test"
 
                 echo '... finish Testing'
             }

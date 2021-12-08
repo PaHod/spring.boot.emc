@@ -18,27 +18,27 @@ import java.util.Optional;
 @Repository
 public class JdbcPatientRepository implements PatientRepository {
 
-    public static final String SQL_INSERT_PATIENT = """
-            insert into patients(
-             first_name,
-             last_name,
-             sex,
-             address,
-             phone_number
-            ) values (?,?,?,?,?)
-            """;
+    public static final String SQL_INSERT_PATIENT =
+            " insert into patients( " +
+            "  first_name, " +
+            "  last_name, " +
+            "  sex, " +
+            "  address, " +
+            "  phone_number " +
+            " ) values (?,?,?,?,?) "
+            ;
 
-    private static final String SQL_SELECT_PATIENTS_JOIN_DOCTORS = """
-            SELECT
-             patients.id, patients.first_name, patients.last_name,
-             patients.sex, patients.address, patients.phone_number,
-            doctors.id, doctors.first_name, doctors.last_name, doctors.speciality
-            FROM patients
-            LEFT OUTER JOIN patients_doctors
-            ON patients.id = patients_doctors.patient_id
-            LEFT OUTER JOIN doctors
-            ON doctors.id = patients_doctors.doctor_id
-            """;
+    private static final String SQL_SELECT_PATIENTS_JOIN_DOCTORS =
+           " SELECT " +
+           "  patients.id, patients.first_name, patients.last_name, " +
+           "  patients.sex, patients.address, patients.phone_number, " +
+           " doctors.id, doctors.first_name, doctors.last_name, doctors.speciality " +
+           " FROM patients " +
+           " LEFT OUTER JOIN patients_doctors " +
+           " ON patients.id = patients_doctors.patient_id " +
+           " LEFT OUTER JOIN doctors " +
+           " ON doctors.id = patients_doctors.doctor_id "
+           ;
 
     private final JdbcTemplate jdbcTemplate;
 

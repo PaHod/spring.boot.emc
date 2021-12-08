@@ -1,15 +1,19 @@
 pipeline {
     agent any
-
+    tools {
+//         jdk 'zulu17'
+        maven 'mvn_384'
+    }
     stages {
+
 
         stage ('Initialize') {
             steps {
-//                 bat echo 'PATH' = ${PATH}
-//                 bat echo 'M2_HOME' = ${M2_HOME}
-
-                // sh 'JAVA -version'
                 sh '''
+                    env | grep -e PATH -e JAVA_HOME
+                    which java
+                    java -version
+
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
                 '''
@@ -40,7 +44,8 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-//                 sh ".\mvnw build"
+
+                sh "mvn verify"
 
                 echo '... finish Building'
             }

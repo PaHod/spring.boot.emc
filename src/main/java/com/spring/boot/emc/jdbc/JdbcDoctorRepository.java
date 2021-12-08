@@ -18,27 +18,27 @@ import java.util.Optional;
 @Repository
 public class JdbcDoctorRepository implements DoctorRepository {
 
-    private static final String SQL_INSERT_DOCTOR = """
-            insert into doctors(
-             first_name,
-             last_name,
-             sex,
-             address,
-             phone_number, 
-             speciality 
-            ) values (?,?,?,?,?,?)
-            """;
-    private static final String SQL_SELECT_DOCTORS_JOIN_PATIENTS = """
-            SELECT
-             doctors.id, doctors.first_name, doctors.last_name, doctors.sex,
-             doctors.address, doctors.phone_number, doctors.speciality,
-             patients.id, patients.first_name, patients.last_name
-            FROM doctors
-            LEFT OUTER JOIN patients_doctors
-             ON doctors.id = patients_doctors.doctor_id
-            LEFT OUTER JOIN patients
-             ON patients.id = patients_doctors.patient_id
-            """;
+    private static final String SQL_INSERT_DOCTOR =
+          " insert into doctors( " +
+          "  first_name, " +
+          "  last_name, " +
+          "  sex, " +
+          "  address, " +
+          "  phone_number, " +
+          "  speciality " +
+          " ) values (?,?,?,?,?,?) "
+           ;
+    private static final String SQL_SELECT_DOCTORS_JOIN_PATIENTS =
+           " SELECT " +
+           "  doctors.id, doctors.first_name, doctors.last_name, doctors.sex, " +
+           "  doctors.address, doctors.phone_number, doctors.speciality, " +
+           "  patients.id, patients.first_name, patients.last_name " +
+           " FROM doctors " +
+           " LEFT OUTER JOIN patients_doctors " +
+           "  ON doctors.id = patients_doctors.doctor_id " +
+           " LEFT OUTER JOIN patients " +
+           "  ON patients.id = patients_doctors.patient_id "
+           ;
 
 
     private final JdbcTemplate jdbcTemplate;

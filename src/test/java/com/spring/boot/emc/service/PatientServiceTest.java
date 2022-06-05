@@ -1,11 +1,14 @@
 package com.spring.boot.emc.service;
 
-import com.spring.boot.emc.repository.PatientRepository;
 import com.spring.boot.emc.model.Patient;
+import com.spring.boot.emc.repository.PatientRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Random;
@@ -15,18 +18,18 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class PatientServiceTest {
 
-    @Autowired
-    private IPatientService patientService;
+    @InjectMocks
+    private PatientService patientService;
 
+    @Mock
     private PatientRepository patientRepository;
 
     @BeforeEach
     void setUpBeforeEach() {
-        MockitoAnnotations.openMocks(this);
         Mockito.reset(patientRepository);
-
     }
 
     @Test

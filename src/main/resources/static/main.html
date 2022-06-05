@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+<body>
+<h2>Home Page</h2>
+<script type="text/javascript">
+        async function loadData(api_url){
+
+            const resp = await fetch(api_url);
+
+            const data = await resp.json();
+            console.log(data);
+            const $table = document.getElementById('contentTable');
+            $table.innerHTML = "";
+
+            var rowHead = $table.insertRow();
+            rowHead.insertCell().innerHTML = "id";
+            rowHead.insertCell().innerHTML = "firstName";
+            rowHead.insertCell().innerHTML = "lastName";
+            rowHead.insertCell().innerHTML = "sex";
+            rowHead.insertCell().innerHTML = "address";
+            rowHead.insertCell().innerHTML = "phoneNumber";
+            rowHead.insertCell().innerHTML = "speciality";
+            rowHead.insertCell().innerHTML = "patients";
+
+            Object.keys(data).forEach((doc) => {
+                const o = data[doc];
+                var row = $table.insertRow();
+                Object.keys(o).forEach((f) => {
+                    const v = o[f];
+                    row.insertCell().innerHTML = v;
+                });
+            });
+        }
+
+    </script>
+
+<a href="/doctors">Get Doctors</a>
+<button type="button" onclick='loadData("/doctors")'>load Doctors</button>
+<table id="contentTable" width="100%" border="1">
+
+
+</table>
+</body>
+</html>

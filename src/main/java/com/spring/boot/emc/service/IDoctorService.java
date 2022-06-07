@@ -1,6 +1,5 @@
 package com.spring.boot.emc.service;
 
-import com.spring.boot.emc.dto.DoctorDTO;
 import com.spring.boot.emc.model.Doctor;
 
 import java.util.List;

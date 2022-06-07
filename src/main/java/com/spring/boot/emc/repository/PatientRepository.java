@@ -7,11 +7,9 @@ import java.util.Optional;
 public interface PatientRepository {
     Patient save(Patient patient);
 
-    Patient update(Patient patient);
-
-    Optional<Patient> findById(int id);
+    Optional<Patient> findById(Integer id);
 
     Iterable<Patient> findAll();
 
-    void deleteById(int id);
+    void deleteById(Integer id);
 }

@@ -52,10 +52,10 @@ public class JdbcPatientRepository implements PatientRepository {
         return updatePatient(patient);
     }
 
-    @Override
-    public Patient update(Patient patient) {
-        return updatePatient(patient);
-    }
+//    @Override
+//    public Patient update(Patient patient) {
+//        return updatePatient(patient);
+//    }
 
     private Patient updatePatient(Patient patient) {
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
@@ -75,7 +75,7 @@ public class JdbcPatientRepository implements PatientRepository {
         return patient;
     }
 
-    public Optional<Patient> findById(int id) {
+    public Optional<Patient> findById(Integer id) {
         try {
             String getPatientSQL = SQL_SELECT_PATIENTS_JOIN_DOCTORS + " where patients.id = " + id;
             Patient patient = jdbcTemplate.queryForObject(getPatientSQL, JdbcResultSetMapper::mapPatient);
@@ -92,7 +92,7 @@ public class JdbcPatientRepository implements PatientRepository {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(Integer id) {
         // TODO
     }
 }

@@ -53,10 +53,10 @@ public class JdbcDoctorRepository implements DoctorRepository {
         return updateDoctor(doctor);
     }
 
-    @Override
-    public Doctor update(Doctor doctor) {
-        return updateDoctor(doctor);
-    }
+//    @Override
+//    public Doctor update(Doctor doctor) {
+//        return updateDoctor(doctor);
+//    }
 
     private Doctor updateDoctor(Doctor doctor) {
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();

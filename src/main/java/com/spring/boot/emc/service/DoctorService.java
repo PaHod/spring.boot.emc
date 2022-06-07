@@ -1,8 +1,8 @@
 package com.spring.boot.emc.service;
 
-import com.spring.boot.emc.repository.DoctorRepository;
 import com.spring.boot.emc.exception.DoctorNotFoundException;
 import com.spring.boot.emc.model.Doctor;
+import com.spring.boot.emc.repository.DoctorRepository;
 import com.spring.boot.emc.welcome.WelcomeService;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +46,8 @@ public class DoctorService implements IDoctorService {
 
     @Override
     public Doctor update(Doctor doctor) {
-        return doctorRepository.save(doctor);
+//        doctorRepository.save(doctor);
+        return doctor;
     }
 
     @Override

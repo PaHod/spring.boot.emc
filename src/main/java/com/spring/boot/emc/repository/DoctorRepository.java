@@ -8,8 +8,6 @@ public interface DoctorRepository {
 
     Doctor save(Doctor doctor);
 
-    Doctor update(Doctor doctor);
-
     Optional<Doctor> findById(int id);
 
     Iterable<Doctor> findAll();

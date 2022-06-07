@@ -45,7 +45,7 @@ public class PatientService implements IPatientService {
 
     @Override
     public Patient update(Patient patient) {
-        patientRepository.update(patient);
+//        patientRepository.update(patient);
         return patient;
     }
 

@@ -1,7 +1,6 @@
 package com.spring.boot.emc.controller;
 
 import com.spring.boot.emc.dto.DoctorDTO;
-import com.spring.boot.emc.dto.PatientDTO;
 import com.spring.boot.emc.dto.mapper.DoctorMapper;
 import com.spring.boot.emc.dto.mapper.PatientMapper;
 import com.spring.boot.emc.model.Doctor;

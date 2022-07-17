@@ -1,20 +1,21 @@
-package com.spring.boot.emc.model;
+package com.spring.boot.emc.sqlmodel;
 
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Entity
 @Table(name = "patients")
-public class Patient {
+public class SQLPatient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,13 +44,32 @@ public class Patient {
             inverseJoinColumns = @JoinColumn(name = "doctor_id")
     )
     @ToString.Exclude
-    private List<Doctor> doctors;
+    private List<SQLDoctor> doctors;
 
-    public void addDoctor(Doctor doctor) {
+    public void addDoctor(SQLDoctor doctor) {
         if (doctors == null) {
             doctors = new ArrayList<>();
         }
         doctors.add(doctor);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SQLPatient)) return false;
+        SQLPatient patient = (SQLPatient) o;
+        return id == patient.id
+                && Objects.equals(firstName, patient.firstName)
+                && Objects.equals(lastName, patient.lastName)
+                && Objects.equals(sex, patient.sex)
+                && Objects.equals(address, patient.address)
+                && Objects.equals(phoneNumber, patient.phoneNumber)
+                && Objects.equals(doctors, patient.doctors);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, sex, address, phoneNumber, doctors);
     }
 }
 

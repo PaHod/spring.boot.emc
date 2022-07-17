@@ -7,12 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Getter
-@Setter
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 @Table(name = "doctors")
 public class Doctor {
@@ -49,18 +47,5 @@ public class Doctor {
             patients = new ArrayList<>();
         }
         patients.add(newPatient);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Doctor doctor = (Doctor) o;
-        return id == doctor.id && Objects.equals(firstName, doctor.firstName) && Objects.equals(lastName, doctor.lastName) && Objects.equals(sex, doctor.sex) && Objects.equals(address, doctor.address) && Objects.equals(phoneNumber, doctor.phoneNumber) && Objects.equals(speciality, doctor.speciality) && Objects.equals(patients, doctor.patients);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, firstName, lastName, sex, address, phoneNumber, speciality, patients);
     }
 }
